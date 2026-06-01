@@ -26,6 +26,24 @@ export function paintKpis(results) {
   setText('total-callout-value', money(m.totalValue));
 }
 
+/** Render the Cost Recovery summary: net cash to partner + coverage narrative. */
+export function paintCostRecovery(results) {
+  const host = document.getElementById('cost-recovery');
+  if (!host) return;
+  const m = results.metrics;
+  const months = results.series.costOverTime.length;
+  const netClass = m.netCashToPartner >= 0 ? 'pos' : 'neg';
+  const note = m.fullyCovered
+    ? `Your payout covers all ${months} months of credit costs, with ${money(m.netCashToPartner)} to spare.`
+    : `Your payout covers ~${m.coveredMonths} of ${months} months of credit costs before cumulative cost catches up.`;
+  host.innerHTML = `
+    <h3 class="cost-recovery__title">Cost Recovery</h3>
+    <p class="cost-recovery__label">Net cash to partner</p>
+    <p class="cost-recovery__value cost-recovery__value--${netClass}">${money(m.netCashToPartner)}</p>
+    <p class="cost-recovery__sub">payout ${money(m.partnerPayout)} − 12-mo costs ${money(m.cumulativeCost12)}</p>
+    <p class="cost-recovery__note">${note}</p>`;
+}
+
 /** Render the 6 marketing channel detail cards (data-driven from results). */
 export function paintChannelCards(results, benchmarks) {
   const host = document.getElementById('channel-cards');

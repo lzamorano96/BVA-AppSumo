@@ -55,6 +55,7 @@ function recalc() {
   state.inputs = inputs;
   state.results = assess(inputs, state.benchmarks, state.config);
   ui.paintKpis(state.results);
+  ui.paintCostRecovery(state.results);
   ui.paintChannelCards(state.results, state.benchmarks);
   renderAll(state.results);
   // Note: the URL is NOT auto-synced on every change — a plain refresh of the

@@ -109,6 +109,20 @@ body { font-family: var(--font-sans); color: var(--color-text); background: var(
 
 .marketing-charts { display: grid; gap: var(--space-4); margin-bottom: var(--space-4); }
 
+/* ---- Cost Recovery summary (Act 1) ---- */
+.cost-recovery {
+  grid-column: 1 / -1;
+  background: #f0f9ff; border: 1px solid #bae6fd; border-left: 4px solid var(--series-1);
+  border-radius: var(--radius); padding: var(--space-4); box-shadow: var(--shadow);
+}
+.cost-recovery__title { font-size: var(--fs-base); font-weight: 700; margin-bottom: var(--space-2); }
+.cost-recovery__label { font-size: var(--fs-sm); color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.cost-recovery__value { font-size: var(--fs-2xl); font-weight: 800; line-height: 1.1; }
+.cost-recovery__value--pos { color: var(--color-positive); }
+.cost-recovery__value--neg { color: var(--color-negative); }
+.cost-recovery__sub { font-size: var(--fs-sm); color: var(--color-muted); margin-bottom: var(--space-2); }
+.cost-recovery__note { font-size: var(--fs-sm); font-weight: 600; }
+
 /* ---- Channel cards ---- */
 .channel-cards { display: grid; gap: var(--space-3); }
 .channel-card {

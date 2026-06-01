@@ -23,6 +23,15 @@ export function assess(inputs, benchmarks, config = {}) {
 
   const totalValue = round2(payout.partnerPayout + market.marketingValue);
 
+  // Cost recovery: how much of the payout survives the first 12 months of credit
+  // costs, and how many months the payout fully covers before cumulative cost catches up.
+  const netCashToPartner = round2(payout.partnerPayout - cost.cumulativeCost);
+  let coveredMonths = 0;
+  for (const p of cost.series) {
+    if (p.cumulative <= payout.partnerPayout) coveredMonths = p.month; else break;
+  }
+  const fullyCovered = cost.cumulativeCost <= payout.partnerPayout;
+
   return {
     metrics: {
       grossRevenue:     revenue.grossRevenue,
@@ -36,6 +45,9 @@ export function assess(inputs, benchmarks, config = {}) {
       peakMonthlyCost:  cost.peakMonthlyCost,
       month12Cost:      cost.lastMonthCost,
       cumulativeCost12: cost.cumulativeCost,
+      netCashToPartner,
+      coveredMonths,
+      fullyCovered,
     },
     series: {
       costOverTime: cost.series,
