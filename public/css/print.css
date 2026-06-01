@@ -1,0 +1,38 @@
+/* print.css — print / Save-as-PDF layout. Linked with media="print".
+   Produces a clean partner-facing report: hides interactive controls, keeps
+   numbers + charts, forces full-width single-column flow. */
+
+@page { margin: 14mm; }
+
+@media print {
+  /* Hide interactive chrome */
+  .header-actions,
+  .form-actions,
+  .form-status,
+  .chart-box__placeholder { display: none !important; }
+
+  /* Neutral header for print */
+  .app-header { background: #fff !important; color: #000 !important; border-bottom: 2px solid #000; }
+  .brand__mark { background: #ffbe00 !important; color: #000 !important; }
+  .brand__partner { color: #444 !important; }
+
+  /* Single-column, full-width flow */
+  .app-grid { display: block !important; max-width: none; padding: 0; }
+  .kpi-row { display: grid !important; grid-template-columns: repeat(4, 1fr) !important; gap: 8px; }
+  .input-panel { position: static !important; page-break-inside: avoid; margin-bottom: 12px; }
+  .act--revenue { display: block !important; }
+  .marketing-charts { display: grid !important; grid-template-columns: 1fr 1fr !important; }
+  .channel-cards { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; }
+
+  /* Keep blocks intact across page breaks */
+  .kpi-card, .chart-box, .channel-card, .act { page-break-inside: avoid; }
+  .act { page-break-before: auto; }
+
+  /* Ensure surfaces/borders print */
+  .kpi-card, .chart-box, .channel-card, .input-panel, .methodology {
+    box-shadow: none !important; border: 1px solid #ddd !important;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .methodology[open] summary { font-weight: 700; }
+  .methodology { break-inside: avoid; }
+}

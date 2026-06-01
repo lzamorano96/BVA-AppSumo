@@ -1,0 +1,31 @@
+/* theme.css — brand design tokens: colors, spacing, type scale. Filled at M3. */
+:root {
+  /* Color tokens (placeholder palette — finalize against AppSumo brand at M3) */
+  --color-bg: #ffffff;
+  --color-surface: #f6f7f9;
+  --color-text: #1a1a1a;
+  --color-muted: #6b7280;
+  --color-accent: #ffbe00;        /* AppSumo yellow (placeholder) */
+  --color-positive: #16a34a;
+  --color-negative: #dc2626;
+
+  /* Chart series palette (mapped in chartRenderer.js) */
+  --series-1: #0ea5e9;
+  --series-2: #f59e0b;
+  --series-3: #10b981;
+  --series-4: #6366f1;
+  --series-5: #ec4899;
+  --series-6: #64748b;
+
+  /* Spacing scale */
+  --space-1: 4px;  --space-2: 8px;  --space-3: 16px;
+  --space-4: 24px; --space-5: 32px; --space-6: 48px;
+
+  /* Type scale */
+  --font-sans: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  --fs-sm: 0.875rem; --fs-base: 1rem; --fs-lg: 1.25rem;
+  --fs-xl: 1.75rem;  --fs-2xl: 2.5rem;
+
+  --radius: 10px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+}

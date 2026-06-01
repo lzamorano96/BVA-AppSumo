@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Business Value Assessment</title>
+
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/print.css" media="print" />
+  <link rel="icon" href="assets/img/favicon.ico" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand__mark">AppSumo</span>
+      <span class="brand__title">Business Value Assessment</span>
+      <span class="brand__partner" id="partner-name">— Partner</span>
+    </div>
+    <div class="header-actions">
+      <label class="preset">
+        Scenario
+        <select id="preset-select" aria-label="Load preset scenario"></select>
+      </label>
+      <button type="button" id="btn-export" class="btn btn--ghost" title="Export (M5)">Export ⤓</button>
+    </div>
+  </header>
+
+  <main class="app-grid">
+
+    <!-- Full-width headline KPI cards -->
+    <section class="kpi-row" aria-label="Headline metrics">
+      <article class="kpi-card">
+        <p class="kpi-card__label">Net Revenue</p>
+        <p class="kpi-card__value" id="kpi-netRevenue">—</p>
+        <p class="kpi-card__sub">after refunds</p>
+      </article>
+      <article class="kpi-card">
+        <p class="kpi-card__label">Partner Payout</p>
+        <p class="kpi-card__value" id="kpi-partnerPayout">—</p>
+        <p class="kpi-card__sub" id="kpi-blendedRate">blended —</p>
+      </article>
+      <article class="kpi-card">
+        <p class="kpi-card__label">Marketing Value</p>
+        <p class="kpi-card__value" id="kpi-marketingValue">—</p>
+        <p class="kpi-card__sub">est. equivalent spend</p>
+      </article>
+      <article class="kpi-card kpi-card--hero">
+        <p class="kpi-card__label">Total Partnership Value</p>
+        <p class="kpi-card__value" id="kpi-totalValue">—</p>
+        <p class="kpi-card__sub">for $0 upfront marketing spend</p>
+      </article>
+    </section>
+
+    <!-- ACT 1: input panel (left) -->
+    <aside class="input-panel" aria-label="Inputs">
+      <form id="bva-form" autocomplete="off">
+        <fieldset>
+          <legend>Campaign</legend>
+          <label>Units sold
+            <input type="number" data-field="unitsSold" min="0" step="1" inputmode="numeric" />
+          </label>
+          <label>Unit price ($)
+            <input type="number" data-field="unitPrice" min="0" step="0.01" inputmode="decimal" />
+          </label>
+          <label>Refund rate (%)
+            <input type="number" data-field="refundRate" min="0" max="100" step="0.1" inputmode="decimal" />
+            <small class="hint">Enter as a percentage, e.g. 15 = 15%</small>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Credit Costs</legend>
+          <label>Active users
+            <input type="number" data-field="activeUsers" min="0" step="1" inputmode="numeric" />
+          </label>
+          <label>Cost / credit ($)
+            <input type="number" data-field="costPerCredit" min="0" step="0.01" inputmode="decimal" />
+          </label>
+          <label>Upfront credits / user
+            <input type="number" data-field="upfrontCredits" min="0" step="1" inputmode="numeric" />
+          </label>
+          <label>Monthly credits / user
+            <input type="number" data-field="monthlyCredits" min="0" step="1" inputmode="numeric" />
+          </label>
+        </fieldset>
+
+        <fieldset class="assumptions">
+          <legend>Assumptions</legend>
+          <p class="assumptions__note">Rev-share tiers &amp; marketing valuations (defaults):</p>
+          <ul id="assumptions-list" class="assumptions__list"></ul>
+        </fieldset>
+
+        <div class="form-actions">
+          <button type="button" id="btn-calculate" class="btn btn--primary">Calculate</button>
+          <button type="button" id="btn-reset" class="btn btn--ghost">Reset</button>
+        </div>
+        <p class="form-status" id="form-status" role="status"></p>
+      </form>
+    </aside>
+
+    <!-- ACT 1: Revenue & Cost charts (right) -->
+    <section class="act act--revenue" aria-label="Revenue &amp; Cost">
+      <h2 class="act__heading">Revenue &amp; Cost — how the numbers break down</h2>
+      <div class="chart-box" id="box-waterfall">
+        <h3 class="chart-box__title">Revenue Waterfall</h3>
+        <div class="chart-box__canvas"><canvas id="chart-waterfall"></canvas></div>
+        <p class="chart-box__placeholder">[A] Chart renders at M4</p>
+      </div>
+      <div class="chart-box" id="box-payout-tiers">
+        <h3 class="chart-box__title">Tiered Rev-Share Payout</h3>
+        <div class="chart-box__canvas"><canvas id="chart-payout-tiers"></canvas></div>
+        <p class="chart-box__placeholder">[B] Chart renders at M4</p>
+      </div>
+      <div class="chart-box chart-box--wide" id="box-cost-over-time">
+        <h3 class="chart-box__title">Credit Cost Over 12 Months</h3>
+        <div class="chart-box__canvas"><canvas id="chart-cost-over-time"></canvas></div>
+        <p class="chart-box__placeholder">[C] Chart renders at M4</p>
+      </div>
+    </section>
+
+    <!-- ACT 2: Marketing Value (full width) -->
+    <section class="act act--marketing" aria-label="Marketing Value">
+      <h2 class="act__heading">Marketing Value — the money is just the beginning</h2>
+      <div class="marketing-charts">
+        <div class="chart-box" id="box-channels-bar">
+          <h3 class="chart-box__title">Value by Channel</h3>
+          <div class="chart-box__canvas"><canvas id="chart-channels-bar"></canvas></div>
+          <p class="chart-box__placeholder">[D] Chart renders at M4</p>
+        </div>
+        <div class="chart-box" id="box-marketing-mix">
+          <h3 class="chart-box__title">Marketing Value Mix</h3>
+          <div class="chart-box__canvas"><canvas id="chart-marketing-mix"></canvas></div>
+          <p class="chart-box__placeholder">[E] Chart renders at M4</p>
+        </div>
+      </div>
+      <div class="channel-cards" id="channel-cards" aria-label="Marketing channel detail"></div>
+    </section>
+
+    <!-- ACT 3: Total Partnership Value (full width) -->
+    <section class="act act--total" aria-label="Total Partnership Value">
+      <h2 class="act__heading">Total Partnership Value — put it all together</h2>
+      <div class="chart-box chart-box--full" id="box-value-stack">
+        <div class="chart-box__canvas"><canvas id="chart-value-stack"></canvas></div>
+        <p class="chart-box__placeholder">[F] Stacked value bar renders at M4</p>
+      </div>
+      <p class="total-callout">
+        <span id="total-callout-value">—</span> in total partnership value
+        <span class="total-callout__sub">for $0 in upfront marketing spend</span>
+      </p>
+      <details class="methodology">
+        <summary>Assumptions &amp; methodology</summary>
+        <div id="methodology-body">
+          <p>Net revenue = units × price − refunds. Partner payout applies a stepped rev-share
+             to net revenue. Marketing value sums six channel valuations at the rates shown in
+             Assumptions. Credit cost declines geometrically to the month-12 target.</p>
+        </div>
+      </details>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <span>Methodology &amp; rates are estimates for illustration.</span>
+    <span id="footer-meta">v0.1.0 · BVA</span>
+  </footer>
+
+  <!-- Chart.js 4.x vendored at M4 -->
+  <script src="js/lib/chart.umd.min.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

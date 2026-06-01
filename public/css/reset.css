@@ -1,0 +1,7 @@
+/* reset.css — normalize / box-sizing baseline. Filled at M3. */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+html, body { height: 100%; }
+body { line-height: 1.5; -webkit-font-smoothing: antialiased; }
+img, svg, canvas { display: block; max-width: 100%; }
+button, input, select { font: inherit; }

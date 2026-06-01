@@ -1,0 +1,13 @@
+{
+  "_comment": "Sample partner scenario preset (e-commerce). Placeholder values; finalized at M1.",
+  "label": "E-commerce — sample",
+  "inputs": {
+    "unitsSold": 3000,
+    "unitPrice": 49,
+    "refundRate": 0.10,
+    "costPerCredit": 0.08,
+    "upfrontCredits": 60,
+    "monthlyCredits": 15,
+    "activeUsers": 3000
+  }
+}

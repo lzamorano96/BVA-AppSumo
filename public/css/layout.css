@@ -1,0 +1,55 @@
+/* layout.css — page grid, the Act-1 two-column split, full-width Acts 2/3,
+   and responsive breakpoints. Implements the approved wireframe.
+
+   Layout model (single CSS grid):
+     - .kpi-row, .act--marketing, .act--total  -> span full width (grid-column: 1 / -1)
+     - .input-panel + .act--revenue            -> the only two-column row (~30% / ~70%)
+     - below 1024px everything collapses to a single column
+*/
+.app-grid {
+  display: grid;
+  grid-template-columns: minmax(300px, 30%) 1fr;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  max-width: 1440px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.kpi-row,
+.act--marketing,
+.act--total { grid-column: 1 / -1; }
+
+.input-panel { grid-column: 1; position: sticky; top: var(--space-3); }
+.act--revenue { grid-column: 2; }
+
+/* KPI row: 4 across */
+.kpi-row { display: grid; gap: var(--space-4); grid-template-columns: repeat(4, 1fr); }
+
+/* Act 1 charts: A | B on top row, C full-width beneath */
+.act--revenue {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: min-content;
+}
+.act--revenue .act__heading { grid-column: 1 / -1; }
+.chart-box--wide { grid-column: 1 / -1; }
+
+/* Act 2: two charts side-by-side, then 6 channel cards */
+.marketing-charts { grid-template-columns: 1fr 1fr; }
+.channel-cards { grid-template-columns: repeat(6, 1fr); }
+
+@media (max-width: 1024px) {
+  .app-grid { grid-template-columns: 1fr; }
+  .input-panel { grid-column: 1; position: static; }
+  .act--revenue { grid-column: 1; grid-template-columns: 1fr; }
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .marketing-charts { grid-template-columns: 1fr; }
+  .channel-cards { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .kpi-row { grid-template-columns: 1fr; }
+  .channel-cards { grid-template-columns: repeat(2, 1fr); }
+}

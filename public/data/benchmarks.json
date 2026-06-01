@@ -1,0 +1,17 @@
+{
+  "_comment": "Default marketing valuation rates + AppSumo reach figures. Editable per engagement (M1). Values seeded from the reference proposal.",
+  "marketingChannels": {
+    "launchEmail":      { "label": "Launch Email Campaign",     "copy": "Featured in launch emails reaching 1M+ subscribers",     "reach": 1000000, "cpm": 30,  "defaultValue": 30000 },
+    "homepageFeature":  { "label": "Homepage Feature Placement", "copy": "2-week featured deal — 500K+ monthly visitors",          "reach": 500000,  "weeks": 2, "defaultValue": 25000 },
+    "affiliateNetwork": { "label": "Affiliate Network",          "copy": "8,000+ affiliates create reviews, blogs & tutorials",    "affiliates": 8000,           "defaultValue": 40000 },
+    "verifiedReviews":  { "label": "Verified User Reviews",      "copy": "1,500 customers = 1,500 potential verified reviews",     "ratePerReview": 35,          "defaultValue": 52500 },
+    "seoOrganic":       { "label": "SEO & Organic Traffic",      "copy": "Page-1 ranking for review & alternative searches",                                     "defaultValue": 20000 },
+    "communityBuzz":    { "label": "Community & Social Buzz",    "copy": "200K+ Sumo-lings amplify across forums & social",        "sumolings": 200000,          "defaultValue": 7500 }
+  },
+  "revShareTiers": [
+    { "tier": 1, "rate": 0.25, "from": 0,      "to": 50000 },
+    { "tier": 2, "rate": 0.30, "from": 50000,  "to": 100000 },
+    { "tier": 3, "rate": 0.40, "from": 100000, "to": null }
+  ],
+  "credits": { "costPerCredit": 0.12, "upfrontCreditsPerUser": 100, "monthlyCreditsPerUser": 25, "monthlyDeclineByM12": 0.44 }
+}

@@ -1,0 +1,13 @@
+{
+  "_comment": "Sample partner scenario preset (SaaS). Mirrors reference proposal. Finalized at M1.",
+  "label": "SaaS — reference example",
+  "inputs": {
+    "unitsSold": 1500,
+    "unitPrice": 89,
+    "refundRate": 0.15,
+    "costPerCredit": 0.12,
+    "upfrontCredits": 100,
+    "monthlyCredits": 25,
+    "activeUsers": 650
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "_comment": "App config. Filled/finalized at M1.",
+  "version": "0.1.0-M0",
+  "currency": "USD",
+  "locale": "en-US",
+  "costHorizonMonths": 12,
+  "featureFlags": {
+    "enablePresets": true,
+    "enableExport": true,
+    "editableBenchmarks": true
+  }
+}
