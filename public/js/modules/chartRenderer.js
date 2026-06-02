@@ -78,17 +78,15 @@ function signedValue(c) {
   return typeof raw === 'number' ? raw : c.parsed.y ?? c.parsed;
 }
 
-// [A] Revenue waterfall — floating bars: [start, end] per step.
+// [A] Revenue breakdown — every bar anchored at 0 (no floating segments).
+// Gross / Refunds / Net / Partner Payout, each as a normal column from the baseline.
 function renderWaterfall(steps) {
   const t = theme();
-  const data = steps.map((s) => (s.kind === 'decrease'
-    ? [s.value < 0 ? 0 : 0, 0]                      // placeholder, recomputed below
-    : [0, s.value]));
-  // Build floating ranges so refunds visually drop from gross to net.
-  const gross = steps[0].value;
-  const net = steps[2].value;
+  const gross  = steps[0].value;
+  const refund = Math.abs(steps[1].value);   // buildWaterfall stores refunds as negative
+  const net    = steps[2].value;
   const payout = steps[3].value;
-  const ranges = [[0, gross], [net, gross], [0, net], [0, payout]];
+  const ranges = [gross, refund, net, payout];
   const colors = [t.series[0], t.negative, t.series[2], t.accent];
 
   upsert('chart-waterfall', {
