@@ -49,12 +49,16 @@ export function paintChannelCards(results, benchmarks) {
   const host = document.getElementById('channel-cards');
   if (!host) return;
   const defs = benchmarks.marketingChannels;
-  host.innerHTML = results.comparisons.marketingChannels.map((c) => `
+  const customers = results.metrics.totalCustomers ?? 0;
+  host.innerHTML = results.comparisons.marketingChannels.map((c) => {
+    const copy = (defs[c.key]?.copy ?? '').replace(/\{customers\}/g, customers.toLocaleString());
+    return `
     <article class="channel-card">
       <p class="channel-card__label">${defs[c.key]?.label ?? c.label}</p>
-      <p class="channel-card__copy">${defs[c.key]?.copy ?? ''}</p>
+      <p class="channel-card__copy">${copy}</p>
       <p class="channel-card__value">${money(c.value)}</p>
-    </article>`).join('');
+    </article>`;
+  }).join('');
 }
 
 /** Render the read-only assumptions list (rev-share tiers + marketing rates). */

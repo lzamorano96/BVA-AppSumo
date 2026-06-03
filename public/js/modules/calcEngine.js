@@ -16,9 +16,13 @@
 export function assess(inputs, benchmarks, config = {}) {
   const horizon = config.costHorizonMonths || 12;
 
+  // Total paying customers = units across all license tiers. Drives the
+  // Verified Reviews valuation so it scales with the calculator inputs.
+  const totalCustomers = (inputs.tier1Units || 0) + (inputs.tier2Units || 0) + (inputs.tier3Units || 0);
+
   const revenue = computeRevenue(inputs);
   const payout  = computeTieredPayout(revenue.netRevenue, benchmarks.revShareTiers);
-  const market  = computeMarketingValue(benchmarks.marketingChannels);
+  const market  = computeMarketingValue(benchmarks.marketingChannels, totalCustomers);
   const cost    = computeCostCurve(inputs, benchmarks.credits, horizon);
 
   const totalValue = round2(payout.partnerPayout + market.marketingValue);
@@ -34,6 +38,7 @@ export function assess(inputs, benchmarks, config = {}) {
 
   return {
     metrics: {
+      totalCustomers,
       grossRevenue:     revenue.grossRevenue,
       refundAmount:     revenue.refundAmount,
       netRevenue:       revenue.netRevenue,
@@ -91,10 +96,18 @@ export function computeTieredPayout(netRevenue, tiers) {
   return { partnerPayout, blendedRate, tiers: out };
 }
 
-// --- Marketing value: sum of 6 channel default valuations ---------------------
-export function computeMarketingValue(channelDefs) {
+// --- Marketing value: per-channel valuations ---------------------------------
+// Most channels use a fixed defaultValue. Verified Reviews scales with the live
+// customer count: value = totalCustomers × ratePerReview (e.g. 500 × $35 = $17,500;
+// at 1,500 customers it equals the original $52,500).
+export function computeMarketingValue(channelDefs, totalCustomers = 0) {
   const channels = Object.entries(channelDefs)
-    .map(([key, c]) => ({ key, label: c.label, value: c.defaultValue }))
+    .map(([key, c]) => {
+      const value = key === 'verifiedReviews'
+        ? round2(totalCustomers * (c.ratePerReview ?? 35))
+        : c.defaultValue;
+      return { key, label: c.label, value };
+    })
     .sort((a, b) => b.value - a.value);
   const marketingValue = round2(channels.reduce((s, c) => s + c.value, 0));
   const mix = channels.map((c) => ({ ...c, pct: marketingValue ? c.value / marketingValue : 0 }));
