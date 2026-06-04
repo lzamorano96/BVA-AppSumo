@@ -10,8 +10,7 @@ import { initExport, decodeStateFromUrl, decodePartnerFromUrl, clearUrl } from '
 
 const PRESETS = [
   { value: 'default', label: 'Default (starting point)' },
-  { value: 'saas', label: 'SaaS — reference example' },
-  { value: 'ecommerce', label: 'E-commerce — sample' },
+  
 ];
 
 const state = { config: null, benchmarks: null, schema: null, inputs: null, results: null };
