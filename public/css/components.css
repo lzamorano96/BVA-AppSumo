@@ -16,6 +16,12 @@ body { font-family: var(--font-sans); color: var(--color-text); background: var(
   background: var(--color-accent); color: #1a1a1a;
   padding: 2px 8px; border-radius: 6px;
 }
+/* AppSumo wordmark (black logotype) on a white pill so it stays visible on the
+   dark header. Aspect ratio is ~6.45:1; height drives the size. */
+.brand__logo {
+  display: block; box-sizing: content-box; height: 30px; width: auto;
+  background: #fff; padding: 7px 12px; border-radius: 8px;
+}
 .brand__title { font-size: var(--fs-lg); font-weight: 700; }
 .brand__sep { color: #64748b; }
 .brand__partner-input {
